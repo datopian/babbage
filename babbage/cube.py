@@ -99,7 +99,7 @@ class Cube(object):
         q, bindings, attributes, aggregates, cuts = \
             prep(cuts, drilldowns=drilldowns, aggregates=aggregates)
         page, q = Pagination(self).apply(q, page, page_size, page_max)
-        ordering, q, bindings = Ordering(self).apply(q, bindings, order)
+        # ordering, q, bindings = Ordering(self).apply(q, bindings, order)
         q = self.restrict_joins(q, bindings)
 
         cells = list(generate_results(self, q))
@@ -111,7 +111,6 @@ class Cube(object):
             'cell': cuts,
             'aggregates': aggregates,
             'attributes': attributes,
-            'order': ordering,
             'page': page['page'],
             'page_size': page['page_size']
         }
@@ -126,8 +125,8 @@ class Cube(object):
             cuts, q, bindings = Cuts(self).apply(q, bindings, cuts)
             fields, q, bindings = \
                 Fields(self).apply(q, bindings, ref, distinct=True)
-            ordering, q, bindings = \
-                Ordering(self).apply(q, bindings, order, distinct=fields[0])
+            # ordering, q, bindings = \
+            #     Ordering(self).apply(q, bindings, order, distinct=fields[0])
             q = self.restrict_joins(q, bindings)
             return q, bindings, cuts, fields, ordering
 
@@ -143,7 +142,6 @@ class Cube(object):
             'data': list(generate_results(self, q)),
             'cell': cuts,
             'fields': fields,
-            'order': ordering,
             'page': page['page'],
             'page_size': page['page_size']
         }
@@ -166,7 +164,7 @@ class Cube(object):
         # Facts
         q, bindings = prep(cuts)
         fields, q, bindings = Fields(self).apply(q, bindings, fields)
-        ordering, q, bindings = Ordering(self).apply(q, bindings, order)
+        # ordering, q, bindings = Ordering(self).apply(q, bindings, order)
         page, q = Pagination(self).apply(q, page, page_size, page_max)
         q = self.restrict_joins(q, bindings)
         return {
@@ -174,7 +172,6 @@ class Cube(object):
             'data': list(generate_results(self, q)),
             'cell': cuts,
             'fields': fields,
-            'order': ordering,
             'page': page['page'],
             'page_size': page['page_size']
         }
